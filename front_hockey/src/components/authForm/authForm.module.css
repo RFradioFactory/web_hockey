@@ -1,0 +1,99 @@
+/* components/AuthForm.module.css */
+.authContainer {
+  max-width: 400px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #1E1E1E12;
+  border-radius: 30px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+  text-align: center;
+  color: #333;
+  margin-bottom: 1.5rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.input {
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 15px;
+  font-size: 1rem;
+  transition: border-color 0.3s ease;
+  background-color: #D9D9D9;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.links {
+  display: flex;
+  justify-content: space-between;
+  margin-top: -0.5rem;
+}
+
+.link {
+  color: #000000;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.link:hover {
+  color: #FF0006;
+}
+
+.button {
+  padding: 0.8rem;
+  background-color: #BA1D20;
+  color: white;
+  border: none;
+  border-radius: 15px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  
+}
+
+.button:hover {
+  background-color: #0056b3;
+}
+
+.buttonLogo {
+  height: 2em;
+  padding-right: 0.5rem;;
+  
+}
+
+
+@media (max-width: 480px) {
+  .authContainer {
+    margin: 1rem;
+    padding: 1.5rem;
+  }
+
+  .links {
+    flex-direction: column;
+    gap: 0.5rem;
+    align-items: flex-start;
+  }
+}
