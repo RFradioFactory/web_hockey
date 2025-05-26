@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import styles from './authForm.module.css';
 import buttonLogo from './../../../public/button_logo.png';
 import { authService, RegisterData } from '../../services/api';
+import { useNavigate } from 'react-router-dom';
 
 const AuthFormRegistration: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -15,16 +16,19 @@ const AuthFormRegistration: React.FC = () => {
   const [birthday, setBirthday] = useState('');
   const [gender, setGender] = useState('');
 
+  const navigate = useNavigate();
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       alert('Пароли не совпадают');
       return;
     }
-    const user: RegisterData =  {firstName, lastName, patronymic, email, password, phone, gender, birthday};
-    console.log(user);
-    const response = await authService.register(user);
+    //const user: RegisterData =  {firstName, lastName, patronymic, email, password, phone, gender, birthday};
+    console.log({firstName, lastName, patronymic, email, password, phone, gender, birthday});
+    const response = await authService.register({firstName, lastName, patronymic, email, password, phone, gender, birthday});
     console.log(response);
+    if(response) navigate('/login');
     // Обработка авторизации
   };
 

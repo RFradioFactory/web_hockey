@@ -4,10 +4,13 @@ import styles from './authForm.module.css';
 import buttonLogo from './../../../public/button_logo.png';
 import { Link, useNavigate } from 'react-router-dom';
 import { authService } from '../../services/api';
+import { useAuth } from '../../services/authContext';
 
 const AuthFormLogin: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const {login} = useAuth();
 
   const navigate = useNavigate();
 
@@ -15,7 +18,11 @@ const AuthFormLogin: React.FC = () => {
     e.preventDefault();
     // Обработка авторизации
     const response = await authService.login({email, password});
-    if(response.accessToken) navigate('/');
+    if (response.accessToken) {
+      login({id:12 , role: 'response.role', name: 'response.name', surname: 'response.surname' })
+      navigate('/');
+    }
+      
 
   };
 

@@ -84,3 +84,37 @@
     padding: 0.5rem 0;
   }
 }
+
+.authBlock {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.userName {
+  color: #333;
+  font-weight: 500;
+}
+
+.authButton {
+  background: none;
+  border: 2px solid #007bff;
+  color: #007bff;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.authButton:hover {
+  background: #007bff;
+  color: white;
+}
+
+@media (max-width: 768px) {
+  .authBlock {
+    order: -1;
+    margin-left: auto;
+    padding-right: 1rem;
+  }
+}

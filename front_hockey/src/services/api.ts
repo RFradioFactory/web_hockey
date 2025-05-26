@@ -1,6 +1,8 @@
 // services/api.ts
 import axios from 'axios';
 import { useNavigate } from 'react-router';
+import { Athlete } from '../components/rating/rating';
+import { useAuth } from './authContext';
 
 const API_BASE_URL = 'http://localhost:8080';
 
@@ -18,24 +20,35 @@ export interface LoginData {
   password: string;
 }
 
-export interface RegisterData extends LoginData {
+export interface RegisterData {
   firstName: string;
   lastName: string;
   patronymic: string;
-  birthday: string;
-  gender: string;
+  email: string;
+  password: string;
   phone: string;
+  gender: string;
+  birthday: string;
 }
 
-export interface AuthResponse {
+export interface AuthResponse 
+                                //extends AuthData 
+{
   accessToken: string;
   refreshToken: string;
-  //id
-  //роль
+}
+
+export interface AuthData{
+  id: number | null;
+  role: string | null;
+  name: string | null;
+  surname: string | null;
 }
 
 // Сервис для работы с аутентификацией
 export const authService = {
+  //const {isAuth, user, login, logout} = useAuth();
+
   async login(credentials: LoginData): Promise<AuthResponse> {
     try {
       const response = await api.post<AuthResponse>('/login', {
@@ -44,11 +57,11 @@ export const authService = {
       });
       console.log(response.data);
       
-      if(response.status == 200){
+      if (response.status == 200){
+
         localStorage.setItem('access_token', response.data.accessToken);
         localStorage.setItem('refresh_token', response.data.refreshToken);
-        //localStorage.setItem('id', response.data.id);
-        //localStorage.setItem('refresh_token', response.data.refreshToken);
+        
         
       }
       return response.data;
@@ -60,11 +73,16 @@ export const authService = {
     }
   },
 
+  logout(): void {
+    
+      localStorage.clear();
+  },
+
   async register(userData: RegisterData): Promise<AuthResponse> {
     try {
       const response = await api.post<AuthResponse>('/registration', {
         firstName: userData.firstName,
-        lastName: userData.lastName,
+        surname: userData.lastName,
         patronymic: userData.patronymic,
         email: userData.email,
         password: userData.password,
@@ -73,10 +91,26 @@ export const authService = {
         born: userData.birthday,
         
       });
+      console.log(response.status, response.data);
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {
+        console.log(error.response?.data?.message, error.response?.status, error.response?.statusText, error.response?.data);
         throw new Error(error.response?.data?.message || 'Registration failed');
+      }
+      throw new Error('An unexpected error occurred');
+    }
+  },
+};
+
+export const apiService = {
+  async getUsers(): Promise<Athlete[]> {
+    try {
+      const response = await api.get<Athlete[]>('/users');
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        throw new Error(error.response?.data?.message || 'Get users failed');
       }
       throw new Error('An unexpected error occurred');
     }
