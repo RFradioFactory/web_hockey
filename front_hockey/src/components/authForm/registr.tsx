@@ -2,9 +2,11 @@
 import React, { useState } from 'react';
 import styles from './authForm.module.css';
 import buttonLogo from './../../../public/button_logo.png';
+import { authService, RegisterData } from '../../services/api';
 
 const AuthFormRegistration: React.FC = () => {
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [lastName, setLastName ] = useState('');
   const [firstName, setFirstName] = useState(''); 
   const [patronymic, setPatronymic] = useState('');
@@ -13,12 +15,16 @@ const AuthFormRegistration: React.FC = () => {
   const [birthday, setBirthday] = useState('');
   const [gender, setGender] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       alert('Пароли не совпадают');
       return;
     }
+    const user: RegisterData =  {firstName, lastName, patronymic, email, password, phone, gender, birthday};
+    console.log(user);
+    const response = await authService.register(user);
+    console.log(response);
     // Обработка авторизации
   };
 
@@ -35,6 +41,19 @@ const AuthFormRegistration: React.FC = () => {
             className={styles.input}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </div>
+
+        <div className={styles.formGroup}>
+          
+          <input
+            type="tel"
+            id="phone"
+            placeholder='Номер телефона'
+            className={styles.input}
+            value={phone}
+            onChange={(e) => setPhone(e.target.value)}
             required
           />
         </div>
@@ -100,8 +119,8 @@ const AuthFormRegistration: React.FC = () => {
             required
           >
             <option value="">Выберите пол</option>
-            <option value="male">Мужской</option>
-            <option value="female">Женский</option>
+            <option value="MALE">Мужской</option>
+            <option value="FEMALE">Женский</option>
           </select>
         </div>
 

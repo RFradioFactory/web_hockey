@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import styles from './header.module.css';
 import logo from './../../../public/logo.png';
+import { Link } from 'react-router-dom';
 
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -14,7 +15,7 @@ const Header: React.FC = () => {
     <header className={styles.header}>
       <nav className={styles.nav}>
         {/* Логотип можно заменить на нужный */}
-        <a href="" >
+        <a href='/'>
           <img src={logo} className="logo" alt="logo" />
         </a>
         

@@ -1,0 +1,159 @@
+/* pages/HomePage.module.css */
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+}
+
+/* Герой-секция */
+.hero {
+  background: linear-gradient(rgba(0, 32, 91, 0.9), rgba(0, 32, 91, 0.9)),
+              url('/hockey-bg.jpg') center/cover;
+  padding: 4rem 1rem;
+  color: white;
+  text-align: center;
+}
+
+.heroContent {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.mainTitle {
+  font-size: 2.8rem;
+  margin-bottom: 1rem;
+  line-height: 1.2;
+}
+
+.accentTitle {
+  color: #ffd700;
+  display: block;
+  font-size: 3.2rem;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+
+/* Основной контент */
+.mainContent {
+  padding: 3rem 1rem;
+}
+
+/* Общие стили секций */
+.section {
+  padding: 3rem 0;
+  background: white;
+}
+
+.sectionDark {
+  background: #f8f9fa;
+  padding: 3rem 0;
+}
+
+.sectionInner {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* Заголовки */
+.sectionTitle {
+  font-size: 2.2rem;
+  color: #00205b;
+  text-align: center;
+  margin-bottom: 2.5rem;
+  position: relative;
+  padding-bottom: 1rem;
+}
+
+.sectionTitle::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background: #ff5722;
+}
+
+.sectionSubtitle {
+  font-size: 1.8rem;
+  color: #00205b;
+  margin-bottom: 1.5rem;
+}
+
+/* Текстовые блоки */
+.textBlock {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.paragraph {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #444;
+  margin-bottom: 1.5rem;
+}
+
+/* Выделенная карточка */
+.highlightCard {
+  background: #fff;
+  border-radius: 8px;
+  padding: 2rem;
+  margin: 2rem 0;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-left: 4px solid #00205b;
+}
+
+/* Колонки для текста */
+.textColumns {
+  column-count: 2;
+  column-gap: 3rem;
+}
+
+@media (max-width: 768px) {
+  .mainTitle {
+    font-size: 2rem;
+  }
+  
+  .accentTitle {
+    font-size: 2.4rem;
+  }
+
+  .sectionTitle {
+    font-size: 1.8rem;
+  }
+
+  .sectionSubtitle {
+    font-size: 1.5rem;
+  }
+
+  .textColumns {
+    column-count: 1;
+  }
+
+  .highlightCard {
+    padding: 1.5rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero {
+    padding: 2rem 1rem;
+  }
+  
+  .mainTitle {
+    font-size: 1.8rem;
+  }
+
+  .accentTitle {
+    font-size: 2rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+}

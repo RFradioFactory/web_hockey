@@ -2,14 +2,21 @@
 import React, { useState } from 'react';
 import styles from './authForm.module.css';
 import buttonLogo from './../../../public/button_logo.png';
+import { Link, useNavigate } from 'react-router-dom';
+import { authService } from '../../services/api';
 
 const AuthFormLogin: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const navigate = useNavigate();
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     // Обработка авторизации
+    const response = await authService.login({email, password});
+    if(response.accessToken) navigate('/');
+
   };
 
   return (
@@ -43,9 +50,9 @@ const AuthFormLogin: React.FC = () => {
         </div>
 
         <div className={styles.links}>
-          <a href="/register" className={styles.link}>
+          <Link to='/registration'><a className={styles.link}>
             Впервые у нас?
-          </a>
+          </a></Link>
           <a href="/forgot-password" className={styles.link}>
             Забыли пароль?
           </a>
