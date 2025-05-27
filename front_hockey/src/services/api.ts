@@ -129,10 +129,48 @@ export const apiService = {
   async addNewTournament(tournament: {tournamentName:string, tournamentStartDate: string, tournamentEndDate: string, location: string}): Promise<any> {
     try {
       const response = await api.post<Tournament>('/tournaments', tournament);
-      return response.data;
+      return response;
     } catch (error) {
       if (axios.isAxiosError(error)) {
         throw new Error(error.response?.data?.message || 'Add new tournament failed');
+      }
+      throw new Error('An unexpected error occurred');
+    }
+  },
+
+  async getInfoTournament(id: number): Promise<any> {
+    try {
+      const response = await api.get<any>(`/tournaments/${id}`);
+      console.log(response.data);
+      return response.data;
+
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        throw new Error(error.response?.data?.message || 'Get info tournament failed');
+      }
+      throw new Error('An unexpected error occurred');
+    }
+  },
+
+  async registOnTournament(id: number): Promise<any> {
+    try {
+      const response = await api.post<any>(`/tournament/${id}/register`);
+      return response;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        throw new Error(error.response?.data?.message || 'Registration on tournament failed');
+      }
+      throw new Error('An unexpected error occurred');
+    }
+  },
+
+  async getMatches(id: number): Promise<any> {
+    try {
+      const response = await api.get<any>(`/api/tournaments/${id}/matches`);
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        throw new Error(error.response?.data?.message || 'Get matches failed');
       }
       throw new Error('An unexpected error occurred');
     }

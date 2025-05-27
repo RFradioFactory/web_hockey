@@ -10,6 +10,7 @@ import { AuthProvider } from './services/authContext.tsx'
 import Tournaments from './components/tournaments/tournaments.tsx'
 import CreateTournamentForm from './components/tournaments/create/tournamentForm.tsx'
 import TournamentsPage from './components/tournaments/tournaments.tsx'
+import TournamentDetails from './components/tournaments/tournament.tsx'
 
 function App() {
   //const [count, setCount] = useState(0)
@@ -28,6 +29,7 @@ function App() {
         <Route path='/tournaments'  >'
           <Route index element={<Tournaments/>}/>
           <Route path="create" element={<CreateTournamentForm/>} />
+          <Route path=':id' element= {<TournamentDetails/>} />
         </Route>
 
         <Route path="/" element={<HomePage/>} />
