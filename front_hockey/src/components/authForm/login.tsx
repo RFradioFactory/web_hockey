@@ -19,7 +19,7 @@ const AuthFormLogin: React.FC = () => {
     // Обработка авторизации
     const response = await authService.login({email, password});
     if (response.accessToken) {
-      login({id:12 , role: 'response.role', name: 'response.name', surname: 'response.surname' })
+      login({id: response.id , role: 'COACH', name: response.name, surname: response.surname }) /////////// role = COACH
       navigate('/');
     }
       

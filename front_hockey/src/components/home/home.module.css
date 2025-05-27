@@ -6,8 +6,8 @@
 
 /* Герой-секция */
 .hero {
-  background: linear-gradient(rgba(0, 32, 91, 0.9), rgba(0, 32, 91, 0.9)),
-              url('/hockey-bg.jpg') center/cover;
+  background: linear-gradient(rgba(0, 32, 91, 0.3), rgba(0, 32, 91, 0.9)),
+              url('D:\front_project\web_hockey\front_hockey\public\home_central.jpg') center/cover;
   padding: 4rem 1rem;
   color: white;
   text-align: center;

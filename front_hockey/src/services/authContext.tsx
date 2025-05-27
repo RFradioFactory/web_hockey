@@ -13,35 +13,28 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  /*const [id, setId] = useState<number | null>(null);
-  const [name, setName] = useState<string | null>(null);
-  const [surname, setSurname] = useState<string | null>(null);
-  const [role, setRole] = useState<string | null>(null);*/
   const [userAuthData, setUserAuthData] = useState<AuthData | null>(null);
   
 
   useEffect(() => {
-    
+    setUserAuthData(JSON.parse(localStorage.getItem('userAuthData') || 'null'));
+    setIsAuthenticated(localStorage.getItem('isAuthenticated') === 'true');
   }, []);
 
   const login = (authData: AuthData) => {
     
     setIsAuthenticated(true);
     setUserAuthData(authData);
-    /*setName(authData.name);
-    setSurname(authData.surname);
-    setRole(authData.role);
-    setId(authData.id);*/
+    localStorage.setItem('userAuthData', JSON.stringify(authData));
+    localStorage.setItem('isAuthenticated', 'true');
   };
 
   const logout = () => {
     
     setIsAuthenticated(false);
     setUserAuthData(null);
-    /*setName(null);
-    setSurname(null);
-    setRole(null);
-    setId(null);*/
+    localStorage.clear();
+    
   };
 
   return (

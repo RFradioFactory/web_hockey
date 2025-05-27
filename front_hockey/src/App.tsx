@@ -7,6 +7,9 @@ import Header from './components/header/header.tsx'
 import HomePage from './components/home/home.tsx'
 import RaitingTable from './components/rating/rating.tsx'
 import { AuthProvider } from './services/authContext.tsx'
+import Tournaments from './components/tournaments/tournaments.tsx'
+import CreateTournamentForm from './components/tournaments/create/tournamentForm.tsx'
+import TournamentsPage from './components/tournaments/tournaments.tsx'
 
 function App() {
   //const [count, setCount] = useState(0)
@@ -22,6 +25,11 @@ function App() {
         <Route path="/login" element={<AuthFormLogin/>} />
         <Route path="/registration" element={<AuthFormRegistration/>} />
         <Route path="/rating" element={<RaitingTable/>} />
+        <Route path='/tournaments'  >'
+          <Route index element={<Tournaments/>}/>
+          <Route path="create" element={<CreateTournamentForm/>} />
+        </Route>
+
         <Route path="/" element={<HomePage/>} />
       </Routes>
     <Footer/>

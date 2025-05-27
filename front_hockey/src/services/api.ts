@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router';
 import { Athlete } from '../components/rating/rating';
 import { useAuth } from './authContext';
+import { Tournament } from '../components/tournaments/tournaments';
 
 const API_BASE_URL = 'http://localhost:8080';
 
@@ -31,8 +32,7 @@ export interface RegisterData {
   birthday: string;
 }
 
-export interface AuthResponse 
-                                //extends AuthData 
+export interface AuthResponse extends AuthData 
 {
   accessToken: string;
   refreshToken: string;
@@ -47,7 +47,7 @@ export interface AuthData{
 
 // Сервис для работы с аутентификацией
 export const authService = {
-  //const {isAuth, user, login, logout} = useAuth();
+  
 
   async login(credentials: LoginData): Promise<AuthResponse> {
     try {
@@ -73,10 +73,7 @@ export const authService = {
     }
   },
 
-  logout(): void {
-    
-      localStorage.clear();
-  },
+  
 
   async register(userData: RegisterData): Promise<AuthResponse> {
     try {
@@ -111,6 +108,31 @@ export const apiService = {
     } catch (error) {
       if (axios.isAxiosError(error)) {
         throw new Error(error.response?.data?.message || 'Get users failed');
+      }
+      throw new Error('An unexpected error occurred');
+    }
+  },
+
+  async getTournaments(): Promise<Tournament[]> {
+    try {
+      const response = await api.get<Tournament[]>('/tournaments');
+      
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        throw new Error(error.response?.data?.message || 'Get tournaments failed');
+      }
+      throw new Error('An unexpected error occurred');
+    }
+  },
+
+  async addNewTournament(tournament: {tournamentName:string, tournamentStartDate: string, tournamentEndDate: string, location: string}): Promise<any> {
+    try {
+      const response = await api.post<Tournament>('/tournaments', tournament);
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        throw new Error(error.response?.data?.message || 'Add new tournament failed');
       }
       throw new Error('An unexpected error occurred');
     }

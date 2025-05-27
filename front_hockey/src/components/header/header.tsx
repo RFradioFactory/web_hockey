@@ -17,13 +17,12 @@ const Header: React.FC = () => {
   const navigate = useNavigate();
 
   const {isAuth, userAuthData, logout} = useAuth();
-
+  
   
 
   const handleLogout = () => {
-    authService.logout();
-    logout();
     
+    logout();
     navigate('/');
   };
 
@@ -31,11 +30,10 @@ const Header: React.FC = () => {
     <header className={styles.header}>
       <nav className={styles.nav}>
         {/* Логотип можно заменить на нужный */}
-        <a href='/'>
+        <Link to ='/'><a >
           <img src={logo} className="logo" alt="logo" />
-        </a>
-        
-        
+        </a></Link>
+      
 
         <button 
           className={styles.menuButton} 
@@ -49,23 +47,28 @@ const Header: React.FC = () => {
 
         <ul className={`${styles.menu} ${isMenuOpen ? styles.active : ''}`}>
           <li className={styles.menuItem}>
-            <a href="/" className={styles.link}>Главная</a>
+            <Link to =''><a href="/" className={styles.link}>Главная</a></Link>
           </li>
           <li className={styles.menuItem}>
-            <a href="/about" className={styles.link}>О нас</a>
+            <Link to ='/'><a href="/about" className={styles.link}>О нас</a></Link>
           </li>
           <li className={styles.menuItem}>
-            <a href="/ratings" className={styles.link}>Рейтинги</a>
+            <Link to ='/rating'><a href="/rating" className={styles.link}>Рейтинги</a></Link>
           </li>
           <li className={styles.menuItem}>
-            <a href="/schedule" className={styles.link}>Расписание</a>
+            <Link to ='/tournaments'><a  className={styles.link}>Турниры</a></Link>
           </li>
-        </ul>
-
-        <div className={styles.authBlock}>
+          <li className={styles.menuItem}>
+            <Link to ='/'><a href="/schedule" className={styles.link}>Расписание</a></Link>
+          </li>
+          <li className={styles.menuItem}>
+            <span className={styles.userName}>{userAuthData?.name} {userAuthData?.surname}</span>
+          </li>
+          <li className={styles.menuItem}>
+            <div className={styles.authBlock}>
           {isAuth ? (
             <>
-              <span className={styles.userName}>{userAuthData?.name}</span>
+              
               <button 
                 className={styles.authButton}
                 onClick={handleLogout}
@@ -82,6 +85,10 @@ const Header: React.FC = () => {
             </button>
           )}
         </div>
+          </li>
+        </ul>
+
+        
       </nav>
     </header>
   );

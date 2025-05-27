@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import styles from './rating.module.css';
 import { apiService } from '../../services/api';
+import { useAuth } from '../../services/authContext';
 
 export interface Athlete {
   id: number;
@@ -12,12 +13,12 @@ export interface Athlete {
 
 const RatingTable: React.FC = () => {
   const [athletes, setAthletes] = useState<Athlete[]>([]);
-  const [userId, setUserId] = useState<number | null>(null);
+  const { userAuthData } = useAuth();
 
-  // Загрузка данных (замените на реальный API-вызов)
+  
   useEffect(() => {
     const loadData = async () => {
-    // Пример моковых данных
+    
     const mockData: Athlete[] = await apiService.getUsers();
     
     // Сортировка по убыванию рейтинга
@@ -25,12 +26,8 @@ const RatingTable: React.FC = () => {
     setAthletes(sortedData);
     };
     loadData();
-    // Получение ID пользователя из localStorage
-    // При авторизации
     
-
-    const storedUserId = localStorage.getItem('userId');
-    setUserId(storedUserId ? parseInt(storedUserId) : null);
+   
   }, []);
 
   return (
@@ -51,7 +48,7 @@ const RatingTable: React.FC = () => {
               <tr 
                 key={athlete.id}
                 className={`${styles.tableRow} ${
-                  athlete.id === userId ? styles.highlighted : ''
+                  athlete.id == userAuthData?.id ? styles.highlighted : ''
                 }`}
               >
                 <td>{index + 1}</td>
