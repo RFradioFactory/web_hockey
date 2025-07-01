@@ -4,6 +4,7 @@ import { useParams, Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styles from './tournament.module.css';
 import { apiService } from '../../services/api';
+import { useAuth } from '../../services/authContext';
 
 interface Athlete {
   id: number;
@@ -31,7 +32,7 @@ interface Tournament {
   tournamentStartDate: string;
   tournamentEndDate: string;
   participants: Athlete[];
-  //matches?: Match[]; // Замените на конкретный интерфейс для матчей
+  matches?: Match[]; // Замените на конкретный интерфейс для матчей
 }
 
 const TournamentDetails: React.FC = () => {
@@ -40,9 +41,17 @@ const TournamentDetails: React.FC = () => {
   const [tournament, setTournament] = useState<Tournament | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
-  const [currentTab, setCurrentTab] = useState<'info' | 'participants' | 'matches'>('info');
+  const [currentTab, setCurrentTab] = useState<'info' | 'participants' | 'matches' | 'my matches'>('info');
   const [matches, setMatches] = useState<Match[] | null>(null);
   const navigate = useNavigate();
+  const { userAuthData } = useAuth();
+
+
+  const [editMatch, setEditMatch] = useState<Match | null>(null);
+  const [teamAScoreEdit, setTeamAScoreEdit] = useState(0);
+  const [teamBScoreEdit, setTeamBScoreEdit] = useState(0);
+  const [isSaving, setIsSaving] = useState(false);
+  const [saveError, setSaveError] = useState('');
 
   useEffect(() => {
     const fetchTournament = async () => {
@@ -95,6 +104,50 @@ const TournamentDetails: React.FC = () => {
   }
 };
 
+
+
+
+// Открыть модальное окно для редактирования
+  const openEditModal = (match: Match) => {
+    setEditMatch(match);
+    setTeamAScoreEdit(match.teamAscore);
+    setTeamBScoreEdit(match.teamBscore);
+    setSaveError('');
+  };
+
+  // Закрыть модальное окно
+  const closeEditModal = () => {
+    setEditMatch(null);
+  };
+
+  // Сохранить изменения
+  const saveMatchScore = async () => {
+    if (!editMatch) return;
+    
+    setIsSaving(true);
+    const score = { scoreA: teamAScoreEdit, scoreB: teamBScoreEdit };
+    const response = apiService.updateScoreMatch(idTourn, editMatch.id, score)
+    console.log(response);  
+      // Обновляем данные матча
+      if (tournament) {
+        const updatedMatches = tournament.matches?.map(m => 
+          m.id === editMatch.id 
+            ? { ...m, teamAscore: teamAScoreEdit, teamBscore: teamBScoreEdit }
+            : m
+        );
+        
+        setTournament({ ...tournament, matches: updatedMatches });
+      }
+      
+      closeEditModal();
+      setIsSaving(false);
+  };
+
+
+
+
+
+
 const renderMatch = (match: Match) => {
   const { date, time } = formatDateTime(match.startTime);
   
@@ -107,6 +160,16 @@ const renderMatch = (match: Match) => {
         }`}>
           {match.status === 'FINISHED' ? 'Завершен' : 'Предстоящий'}
         </span>
+
+         <div>
+              <button 
+                className={styles.editButton}
+                onClick={() => openEditModal(match)}
+              >
+                Изменить счет
+              </button>
+          </div>
+
       </div>
 
       <div className={styles.teamsContainer}>
@@ -199,17 +262,35 @@ const renderMatch = (match: Match) => {
         );
 
       case 'matches':
+        const sortedMatches = matches!.sort((a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime());
+
         return (
             <div className={styles.matchesSection}>
-            {matches!.length > 0 ? (
-                matches!.map(renderMatch)
+            {sortedMatches!.length > 0 ? (
+                sortedMatches!.map(renderMatch)
             ) : (
                 <p>Матчи еще не сгенерированы</p>
             )}
             </div>
         );
-            }
-        };
+
+      case 'my matches':
+      const sortedMyMatches = matches!.sort((a, b) => new Date(a.startTime).getTime() - new Date(b.startTime).getTime());
+  
+      const mySortedMatches = sortedMyMatches!.filter((match) => match.firstTeam.some((participant) => participant.id === userAuthData!.id)
+         || match.secondTeam.some((participant) => participant.id === userAuthData!.id));
+
+        return (
+            <div className={styles.matchesSection}>
+            {mySortedMatches!.length > 0 ? (
+                mySortedMatches!.map(renderMatch)
+            ) : (
+                <p>Матчи не найдены</p>
+            )}
+            </div>
+        );
+      }
+  };
 
   if (loading) {
     return <div className={styles.loading}>Загрузка...</div>;
@@ -253,11 +334,71 @@ const renderMatch = (match: Match) => {
             >
               Матчи
             </button>
+            <button
+              className={`${styles.tab} ${currentTab === 'my matches' ? styles.active : ''}`}
+              onClick={() => setCurrentTab('my matches')}
+            >
+              Мои матчи
+            </button>
           </div>
 
           <div className={styles.tabContent}>
             {renderTabContent()}
           </div>
+
+          {editMatch && (
+        <div className={styles.modalOverlay}>
+          <div className={styles.modal}>
+            <h3>Изменить счет матча</h3>
+            
+            <div className={styles.scoreInputs}>
+              <div className={styles.teamInput}>
+                <h4>Команда A</h4>
+                <input
+                  type="number"
+                  min="0"
+                  value={teamAScoreEdit}
+                  onChange={(e) => setTeamAScoreEdit(parseInt(e.target.value) || 0)}
+                  className={styles.scoreInput}
+                />
+              </div>
+              
+              <div className={styles.scoreSeparator}>:</div>
+              
+              <div className={styles.teamInput}>
+                <h4>Команда B</h4>
+                <input
+                  type="number"
+                  min="0"
+                  value={teamBScoreEdit}
+                  onChange={(e) => setTeamBScoreEdit(parseInt(e.target.value) || 0)}
+                  className={styles.scoreInput}
+                />
+              </div>
+            </div>
+            
+            {saveError && <div className={styles.error}>{saveError}</div>}
+            
+            <div className={styles.modalActions}>
+              <button 
+                className={styles.cancelButton}
+                onClick={closeEditModal}
+                disabled={isSaving}
+              >
+                Отмена
+              </button>
+              <button 
+                className={styles.saveButton}
+                onClick={saveMatchScore}
+                disabled={isSaving}
+              >
+                {isSaving ? 'Сохранение...' : 'Сохранить'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    
         </>
       )}
     </div>

@@ -175,6 +175,18 @@ export const apiService = {
       throw new Error('An unexpected error occurred');
     }
   },
+
+  async updateScoreMatch(idTourn: number, idMatch: number, score: { scoreA: number; scoreB: number }): Promise<any> {
+    try {
+      const response = await api.post<any>(`/api/tournaments/${idTourn}/matches/${idMatch}/update`, score);
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error)) {
+        throw new Error(error.response?.data?.message || 'Update score match failed');
+      }
+      throw new Error('An unexpected error occurred');
+    }
+  },
 };
 
 // services/api.ts

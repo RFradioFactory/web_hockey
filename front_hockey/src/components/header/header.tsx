@@ -50,7 +50,7 @@ const Header: React.FC = () => {
             <Link to =''><a href="/" className={styles.link}>Главная</a></Link>
           </li>
           <li className={styles.menuItem}>
-            <Link to ='/'><a href="/about" className={styles.link}>О нас</a></Link>
+            <Link to ='/about'><a href="/about" className={styles.link}>О нас</a></Link>
           </li>
           <li className={styles.menuItem}>
             <Link to ='/rating'><a href="/rating" className={styles.link}>Рейтинги</a></Link>
@@ -58,9 +58,10 @@ const Header: React.FC = () => {
           <li className={styles.menuItem}>
             <Link to ='/tournaments'><a  className={styles.link}>Турниры</a></Link>
           </li>
-          <li className={styles.menuItem}>
-            <Link to ='/'><a href="/schedule" className={styles.link}>Расписание</a></Link>
+          {/*<li className={styles.menuItem}>
+            <Link to ='/mytournaments'><a href="/mytournaments" className={styles.link}>Расписание</a></Link>
           </li>
+          */}
           <li className={styles.menuItem}>
             <span className={styles.userName}>{userAuthData?.name} {userAuthData?.surname}</span>
           </li>

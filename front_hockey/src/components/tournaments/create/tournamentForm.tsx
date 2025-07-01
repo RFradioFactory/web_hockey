@@ -46,7 +46,7 @@ const CreateTournamentForm: React.FC = () => {
         tournamentEndDate: tournament.endDate,
         location: tournament.location
     });
-    if (response.status === 200) {
+    if (response.status === 201) {
       navigate('/tournaments');
     }
     setIsSubmitting(false);

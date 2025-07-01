@@ -1,0 +1,161 @@
+/* AboutPage.module.css */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.header h1 {
+  font-size: 2.5rem;
+  color: #ba1d20;
+  margin-bottom: 1rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.divider {
+  height: 4px;
+  width: 100px;
+  background: #00205b;
+  margin: 0 auto;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2.5rem;
+  margin-bottom: 4rem;
+}
+
+.arenaCard {
+  background: white;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.arenaCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.arenaHeader {
+  background: #00205b;
+  color: white;
+  padding: 1.5rem;
+}
+
+.arenaHeader h2 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.contactInfo {
+  padding: 2rem;
+}
+
+.contactItem {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+}
+
+.icon {
+  color: #ba1d20;
+  font-size: 1.5rem;
+  margin-right: 1.2rem;
+  min-width: 24px;
+}
+
+.contactItem span {
+  font-size: 1.1rem;
+  color: #333;
+  line-height: 1.6;
+}
+
+.mapSection {
+  margin-top: 3rem;
+}
+
+.mapContainer {
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+}
+
+.mapPlaceholder {
+  height: 400px;
+  background: #f0f2f5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  color: #666;
+}
+
+/* Адаптивные стили */
+@media (max-width: 992px) {
+  .content {
+    gap: 2rem;
+  }
+  
+  .arenaHeader h2 {
+    font-size: 1.6rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .header h1 {
+    font-size: 2rem;
+  }
+  
+  .content {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  
+  .mapPlaceholder {
+    height: 300px;
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    padding: 1.5rem;
+  }
+  
+  .header h1 {
+    font-size: 1.8rem;
+  }
+  
+  .arenaHeader {
+    padding: 1.2rem;
+  }
+  
+  .arenaHeader h2 {
+    font-size: 1.4rem;
+  }
+  
+  .contactInfo {
+    padding: 1.5rem;
+  }
+  
+  .contactItem {
+    flex-direction: column;
+  }
+  
+  .icon {
+    margin-bottom: 0.5rem;
+  }
+  
+  .mapPlaceholder {
+    height: 250px;
+    font-size: 1.2rem;
+  }
+}

@@ -11,6 +11,8 @@ import Tournaments from './components/tournaments/tournaments.tsx'
 import CreateTournamentForm from './components/tournaments/create/tournamentForm.tsx'
 import TournamentsPage from './components/tournaments/tournaments.tsx'
 import TournamentDetails from './components/tournaments/tournament.tsx'
+import MyTournamentsPage from './components/tournaments/myTourmanents.tsx'
+import AboutPage from './components/about/about.tsx'
 
 function App() {
   //const [count, setCount] = useState(0)
@@ -31,7 +33,8 @@ function App() {
           <Route path="create" element={<CreateTournamentForm/>} />
           <Route path=':id' element= {<TournamentDetails/>} />
         </Route>
-
+        {/*<Route path="/mytournaments" element = {<MyTournamentsPage/>} />*/}
+        <Route path='/about' element={<AboutPage/>} />
         <Route path="/" element={<HomePage/>} />
       </Routes>
     <Footer/>

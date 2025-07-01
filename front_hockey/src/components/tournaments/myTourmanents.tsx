@@ -1,23 +1,18 @@
-// components/TournamentsPage.tsx
+
 import React, { useState, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import styles from './tournaments.module.css';
 import { apiService } from '../../services/api';
 import { useAuth } from '../../services/authContext';
-import { Athlete } from '../rating/rating';
+import { Tournament } from './tournaments';
 
-export interface Tournament {
-  id: number;
-  name: string;
-  location: string;
-  startDate: string;
-  endDate: string;
-  //participants?: Athlete[];
-}
 
-const TournamentsPage: React.FC = () => {
+const MyTournamentsPage: React.FC = () => {
   const [tournaments, setTournaments] = useState<Tournament[]>([]);
+  
+
+
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState('');
   const [isShowPastTournaments, setIsShowPastTournaments] = useState(false);
@@ -33,6 +28,7 @@ const TournamentsPage: React.FC = () => {
     const fetchTournaments = async () => {
       try {
         const response = await apiService.getTournaments();
+        
         setTournaments(response);
       } catch (err) {
         setError('Ошибка загрузки турниров');
@@ -45,13 +41,24 @@ const TournamentsPage: React.FC = () => {
     fetchTournaments();
   }, []);
 
+  
   const filterTournaments = (tournaments: Tournament[]) => {
     const currentDate = new Date();
-    return tournaments.filter(tournament => 
+    return tournaments
+    .filter(tournament => 
       isShowPastTournaments 
         ? new Date(tournament.endDate) < currentDate
         : new Date(tournament.endDate) >= currentDate
     );
+  };
+
+  const filterMyTournaments = (tournaments: Tournament[]) => {
+    
+    return tournaments/*.filter(tournament =>{ 
+        console.log(tournament);
+        console.log(tournament.participants);
+        tournament.participants.some(participant => participant.id === userAuthData.id)});
+*/
   };
 
   const formatDateTime = (dateString: string) => {
@@ -73,15 +80,16 @@ const TournamentsPage: React.FC = () => {
     return <div className={styles.error}>{error}</div>;
   }
 
-  const filteredTournaments = filterTournaments(tournaments);
+  const filteredTournaments = filterMyTournaments(filterTournaments(tournaments));
+  console.log(filteredTournaments);
 
   return (
     <div className={styles.container}> 
-    {(userAuthData.role === 'COACH' || userAuthData.role ==='ADMIN') && (<button 
+    {/* {(userAuthData.role === 'COACH' || userAuthData.role ==='ADMIN') && (<button 
         className={styles.button}
         onClick={()=>navigate('/tournaments/create')}
         >Создать турнир</button>)
-        }
+        } */}
 
       <div className={styles.header}>
         
@@ -96,6 +104,8 @@ const TournamentsPage: React.FC = () => {
           <span>Показать прошедшие турниры</span>
         </label>
       </div>
+
+
 
       <div className={styles.grid}>
         {filteredTournaments.map((tournament) => (
@@ -130,4 +140,4 @@ const TournamentsPage: React.FC = () => {
   );
 };
 
-export default TournamentsPage;
+export default MyTournamentsPage;
